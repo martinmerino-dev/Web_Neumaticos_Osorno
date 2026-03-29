@@ -28,8 +28,9 @@ html, body {
 body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
-  background-color: #fffdf9;
+  background-color: #1a1a1a;
   color: #444;
+  position: relative;
 }
 
 h1, h2, h3 {
@@ -44,9 +45,11 @@ p, a, li {
 /* Hace que el contenido crezca y empuje el footer abajo */
 main {
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
-/* 🎨 Fondo visual tipo marca de agua con imagen difuminada */
+/* 🎨 Background image - visible and covering */
 body::before {
   content: "";
   position: fixed;
@@ -58,23 +61,37 @@ body::before {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.5;
-  filter: blur(1px);
+  z-index: -2;
+}
+
+/* ⬜ White overlay to lighten background */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2); /* manta blanca - 0.3 = sutil, 0.5 = más blanco */
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
   z-index: -1;
 }
 
 /* 
 ========================================
-🟧 NAVBAR — Barra superior con logo y menú
+🟧 NAVBAR — Glassmorphism sticky navigation
 ========================================
-Fija arriba al hacer scroll, con fondo blanco y sombra.
 */
 .navbar {
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: #ffffff; /* Blanco sólido para calzar con el fondo del logo */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbar-container {
@@ -90,6 +107,7 @@ Fija arriba al hacer scroll, con fondo blanco y sombra.
   height: 50px;
   object-fit: contain;
   max-width: 350px;
+  background: transparent; /* Sin fondo para calzar con navbar */
 }
 
 .nav-links {
@@ -552,98 +570,130 @@ main {
 
 /* 
 ========================================
-🏢 SECCIÓN QUIÉNES SOMOS — Estilo centrado y limpio
+🏢 SECCIÓN QUIÉNES SOMOS — Modern Clean Card
 ========================================
 */
 .about-section {
-  max-width: 900px;              /* 👈 Limita el ancho del bloque */
-  margin: 0px auto 60px;           /* 👈 Centrado y separación del footer */
-  padding: 0 20px;               /* 👈 Padding lateral para móviles */
+  max-width: 750px;
+  margin: 60px auto;
+  padding: 50px 40px;
   text-align: center;
+  background: #ffffff; /* blanco sin logo */
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .about-section h2 {
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: 800;
-  margin: 20px 0 16px;           /* 👈 Más pegado al texto */
+  margin-bottom: 15px;
   color: #111;
-  position: relative;
 }
 
-.about-text {
-  line-height: 1.6;              /* 👈 Reduce separación vertical */
-  font-size: 1.1rem;
-  color: #333;
+.about-content {
+  line-height: 1.6;
+  font-size: 1rem;
+  color: #444;
 }
 
-.about-text p {
-  margin-bottom: 16px;           /* 👈 Menor espacio entre párrafos */
+.about-content p {
+  margin-bottom: 10px;
 }
 
-/* 🧠 Ajuste fino en móviles */
+.about-content p:last-child {
+  margin-bottom: 0;
+}
+
+.about-content .highlight {
+  font-weight: 600;
+  font-size: 18px;
+  color: #e53935;
+  margin-bottom: 10px;
+}
+
+/* 🧠 Responsive */
 @media (max-width: 768px) {
   .about-section {
-    padding: 0 15px;
+    margin: 40px 16px;
+    padding: 32px 24px;
+    border-radius: 16px;
   }
 
   .about-section h2 {
-    font-size: 2rem;
-    margin-top: 60px;
+    font-size: 26px;
   }
 
-  .about-text {
-    font-size: 1rem;
+  .about-content .highlight {
+    font-size: 16px;
   }
 }
 
 /* 
 ========================================
-🖼️ LOGO FINAL — Logo decorativo en sección "Quiénes Somos"
+🖼️ LOGO BADGE — Logo en sección "Quiénes Somos"
 ========================================
 */
-
 .about-logo {
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  display: inline-block;
+  margin-top: 25px;
+  padding: 0;
+  background: transparent;
 }
 
 .about-logo img {
-  max-width: 210px;       /* 🔧 Tamaño ideal para pantallas normales */
-  width: 100%;
-  height: auto;
-  transition: transform 0.3s ease;
+  height: 50px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
 }
 
-.about-logo img:hover {
-  transform: scale(1.05); /* 🎯 Efecto visual al pasar el mouse */
-}
-
-/* Responsive para que no se agrande en celular */
 @media (max-width: 768px) {
+  .about-logo {
+    margin-top: 20px;
+  }
+
   .about-logo img {
-    max-width: 90px;
-    opacity: 0.25;
+    height: 40px;
   }
 }
 
 /* 
 ========================================
-📢 GLOBAL ANNOUNCEMENT — Barra informativa permanente
+📢 FREE SHIPPING BANNER — Floating pill style
 ========================================
 */
 .free-shipping-banner {
-   background-color: #f2610d;
+  background: linear-gradient(135deg, #f2610d 0%, #ff7a2e 100%);
   color: white;
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
   text-align: center;
-  padding: 12px 25px;
-  max-width: 600px;
-  margin: 20px auto 10px; /* 👈 AQUI separamos del navbar arriba */
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 14px 28px;
+  max-width: 400px;
+  margin: 24px auto 20px;
+  border-radius: 50px;
+  box-shadow: 0 6px 24px rgba(242, 97, 13, 0.35);
+  position: relative;
+  z-index: 1;
+}
+
+.free-shipping-banner p {
+  margin: 0;
 }
 
 /* ✅ Responsive ajuste para móviles */
