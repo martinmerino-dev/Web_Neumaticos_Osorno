@@ -135,6 +135,55 @@ body::after {
   font-weight: 600;
 }
 
+/* 📱 HAMBURGER MENU — Mobile Navigation */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  padding: 5px 10px;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #ffffff;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-radius: 0 0 16px 16px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 14px 20px;
+    text-align: center;
+    border-radius: 0;
+  }
+
+  .navbar-container {
+    position: relative;
+  }
+}
+
 /* 
 /* 
 ========================================
@@ -181,7 +230,7 @@ Tarjetas con imagen, nombre y botón animado "ver más".
 */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   padding: 20px;
   max-width: 1200px;
@@ -189,7 +238,16 @@ Tarjetas con imagen, nombre y botón animado "ver más".
   position: relative;
   z-index: 1;
   background: transparent;
-  margin-bottom: 60px; /* ✅ Esto sube el contenido alejándolo del footer */
+  margin-bottom: 60px;
+}
+
+/* 📱 MOBILE: 1 columna en pantallas pequeñas */
+@media (max-width: 600px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
 }
 
 .product-card {
@@ -197,10 +255,11 @@ Tarjetas con imagen, nombre y botón animado "ver más".
   border: 1px solid #ddd;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  padding: 40px;
+  padding: 24px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   max-width: 400px;
+  width: 100%;
   margin: auto;
   animation: fadeInUp 0.6s ease forwards;
   opacity: 0;
